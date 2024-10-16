@@ -2,12 +2,17 @@
 
 <h1>Login</h1>
 
-<form asp-action="Login" method="post">
+@using (Html.BeginForm("Login", "Student", FormMethod.Post))
+{
     <div>
-       <input type="text" name="name" id="id"  placeholder="username" />
+        @Html.LabelFor(m => m.Username)
+        @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Username)
     </div>
     <div>
-        <input type="password" name="name" id="id"  placeholder="password" />
+        @Html.LabelFor(m => m.Password)
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Password)
     </div>
-    <button type="submit">Login</button>
-</form>
+    <button type="submit" class="btn btn-primary">Login</button>
+}

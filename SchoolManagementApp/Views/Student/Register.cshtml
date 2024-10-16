@@ -4,7 +4,13 @@
 
 @using (Html.BeginForm("Register", "Student", FormMethod.Post))
 {
-   
+
+    <div> 
+        @Html.HiddenFor(m => m.Username)        
+    </div>
+    <div>
+        @Html.HiddenFor(m => m.Password)
+    </div>
     <div>
         @Html.LabelFor(m => m.FirstName)
         @Html.TextBoxFor(m => m.FirstName)
@@ -92,25 +98,7 @@
     </tbody>
 </table>
 
-@* @section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#addQualification").click(function () {
-                var newRow = "<tr>" +
-                    "<td><input type='text' name='Qualifications[0].CourseName' /></td>" +
-                    "<td><input type='text' name='Qualifications[0].University' /></td>" +
-                    "<td><input type='number' name='Qualifications[0].YearOfPassing' /></td>" +
-                    "<td><input type='text' name='Qualifications[0].Percentage' /></td>" +
-                    "</tr>";
-                $("#qualificationTable").append(newRow);
-            });
-        });
-    </script>
 
-
-
-} *@
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

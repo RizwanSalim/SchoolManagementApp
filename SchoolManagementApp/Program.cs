@@ -5,6 +5,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+// Add session services
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); 
+    options.Cookie.HttpOnly = true; 
+    options.Cookie.IsEssential = true; 
+});
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 
@@ -23,6 +30,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseSession();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -30,3 +39,5 @@ app.MapControllerRoute(
     pattern: "{controller=Student}/{action=Login}/{id?}");
 
 app.Run();
+
+

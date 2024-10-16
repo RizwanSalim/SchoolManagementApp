@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using SchoolManagementApp.Business;
 using SchoolManagementApp.Models;
 using System.Collections.Generic;
@@ -17,7 +18,13 @@ namespace SchoolManagementApp.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            var model = new Student { Qualifications = new List<Qualification> { new Qualification() } };
+            var username = HttpContext.Session.GetString("Username");
+            var password = HttpContext.Session.GetString("Password");
+
+            var model = new Student { Qualifications = new List<Qualification> { new Qualification() },
+                Username = username, 
+                Password = password  
+            };
             ViewBag.Students = _studentService.GetAllStudents();
             return View(model);
         }
@@ -27,7 +34,8 @@ namespace SchoolManagementApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+                var username = HttpContext.Session.GetString("Username");
+                var password = HttpContext.Session.GetString("Password");
                 _studentService.RegisterStudent(student);
 
                
@@ -35,7 +43,10 @@ namespace SchoolManagementApp.Controllers
 
                
                 ModelState.Clear(); 
-                var newModel = new Student { Qualifications = new List<Qualification> { new Qualification() } };
+                var newModel = new Student { Qualifications = new List<Qualification> { new Qualification() },
+                    Username = username,
+                    Password = password
+                };
                 return View(newModel);
             }
 
@@ -52,9 +63,17 @@ namespace SchoolManagementApp.Controllers
         [HttpPost]
         public IActionResult Login(Student student)
         {
-           
+            if (!string.IsNullOrEmpty(student.Username) && !string.IsNullOrEmpty(student.Password))
+            {
+               
+                HttpContext.Session.SetString("Username", student.Username);
+                HttpContext.Session.SetString("Password", student.Password);
+
                 return RedirectToAction("Register");
-  
+            }
+
+            ModelState.AddModelError("", "Invalid login attempt.");
+            return View(student);
         }
 
     }
