@@ -4,6 +4,7 @@
 
 @using (Html.BeginForm("Register", "Student", FormMethod.Post))
 {
+   
     <div>
         @Html.LabelFor(m => m.FirstName)
         @Html.TextBoxFor(m => m.FirstName)
@@ -82,7 +83,7 @@
                 <td>@student.FirstName</td>
                 <td>@student.LastName</td>
                 <td>@student.Age</td>
-                <td>@student.DOB.ToString("yyyy-MM-dd")</td>
+                <td>@student.DateOfBirth.ToString("yyyy-MM-dd")</td>
                 <td>@student.Gender</td>
                 <td>@student.Email</td>
                 <td>@student.PhoneNumber</td>
@@ -107,7 +108,7 @@
         });
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  @*   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.3/jquery.validate.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -146,6 +147,6 @@
                 }
             });
         });
-    </script>
+    </script> *@
 
 }
