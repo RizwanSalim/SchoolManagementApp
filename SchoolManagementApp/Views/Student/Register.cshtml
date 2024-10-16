@@ -92,7 +92,7 @@
     </tbody>
 </table>
 
-@section Scripts {
+@* @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -108,45 +108,45 @@
         });
     </script>
 
-  @*   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.3/jquery.validate.min.js"></script>
+
+
+} *@
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
     <script>
         $(document).ready(function () {
+            // Add validation to the registration form
             $("#registrationForm").validate({
                 rules: {
-                    FirstName: "required",
-                    Age: {
-                        required: true,
-                        digits: true
-                    },
-                    DateOfBirth: "required",
-                    Gender: "required",
-                    Email: {
-                        required: true,
-                        email: true
-                    },
-                    PhoneNumber: "required",
-                    Username: "required",
-                    Password: "required"
+                    FirstName: { required: true },
+                    Age: { required: true, digits: true },
+                    DateOfBirth: { required: true, date: true },
+                    Gender: { required: true },
+                    Email: { required: true, email: true },
+                    PhoneNumber: { required: true, phoneUS: true }
                 },
                 messages: {
-                    FirstName: "Please enter your first name",
-                    Age: {
-                        required: "Please enter your age",
-                        digits: "Please enter a valid age"
-                    },
-                    DateOfBirth: "Please enter your date of birth",
-                    Gender: "Please select your gender",
-                    Email: {
-                        required: "Please enter your email",
-                        email: "Please enter a valid email address"
-                    },
-                    PhoneNumber: "Please enter your phone number",
-                    Username: "Please enter a username",
-                    Password: "Please enter a password"
+                    FirstName: { required: "Please enter your first name." },
+                    Age: { required: "Please enter your age.", digits: "Age must be a number." },
+                    DateOfBirth: { required: "Please enter your date of birth." },
+                    Gender: { required: "Please select your gender." },
+                    Email: { required: "Please enter your email.", email: "Please enter a valid email address." },
+                    PhoneNumber: { required: "Please enter your phone number." }
                 }
             });
-        });
-    </script> *@
 
+            $("#addQualification").click(function () {
+                var newRow = "<tr>" +
+                    "<td><input type='text' name='Qualifications[0].CourseName' /></td>" +
+                    "<td><input type='text' name='Qualifications[0].University' /></td>" +
+                    "<td><input type='number' name='Qualifications[0].YearOfPassing' /></td>" +
+                    "<td><input type='text' name='Qualifications[0].Percentage' /></td>" +
+                    "</tr>";
+                $("#qualificationTable").append(newRow);
+            });
+        });
+    </script>
 }
