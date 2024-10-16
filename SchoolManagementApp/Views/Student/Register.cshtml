@@ -1,0 +1,151 @@
+﻿@model SchoolManagementApp.Models.Student
+
+<h2>Student Registration</h2>
+
+@using (Html.BeginForm("Register", "Student", FormMethod.Post))
+{
+    <div>
+        @Html.LabelFor(m => m.FirstName)
+        @Html.TextBoxFor(m => m.FirstName)
+        @Html.ValidationMessageFor(m => m.FirstName)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.LastName)
+        @Html.TextBoxFor(m => m.LastName)
+        @Html.ValidationMessageFor(m => m.LastName)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Age)
+        @Html.TextBoxFor(m => m.Age)
+        @Html.ValidationMessageFor(m => m.Age)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.DateOfBirth)
+        @Html.TextBoxFor(m => m.DateOfBirth, "{0:yyyy-MM-dd}", new { @type = "date" })
+        @Html.ValidationMessageFor(m => m.DateOfBirth)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Gender)
+        @Html.DropDownListFor(m => m.Gender, new SelectList(new[] { "Male", "Female", "Other" }))
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email)
+        @Html.ValidationMessageFor(m => m.Email)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.PhoneNumber)
+        @Html.TextBoxFor(m => m.PhoneNumber)
+        @Html.ValidationMessageFor(m => m.PhoneNumber)
+    </div>
+
+    <h3>Qualifications</h3>
+    <table id="qualificationTable">
+        <tr>
+            <th>Course Name</th>
+            <th>University</th>
+            <th>Year of Passing</th>
+            <th>Percentage</th>
+        </tr>
+        @for (int i = 0; i < Model.Qualifications.Count; i++)
+        {
+            <tr>
+                <td>@Html.TextBoxFor(m => m.Qualifications[i].CourseName)</td>
+                <td>@Html.TextBoxFor(m => m.Qualifications[i].University)</td>
+                <td>@Html.TextBoxFor(m => m.Qualifications[i].YearOfPassing)</td>
+                <td>@Html.TextBoxFor(m => m.Qualifications[i].Percentage)</td>
+            </tr>
+        }
+    </table>
+    <button type="button" id="addQualification">Add Qualification</button>
+
+    <button type="submit">Register</button>
+}
+
+<h2>Registered Students</h2>
+<table>
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Age</th>
+            <th>DOB</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Phone</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in ViewBag.Students)
+        {
+            <tr>
+                <td>@student.FirstName</td>
+                <td>@student.LastName</td>
+                <td>@student.Age</td>
+                <td>@student.DOB.ToString("yyyy-MM-dd")</td>
+                <td>@student.Gender</td>
+                <td>@student.Email</td>
+                <td>@student.PhoneNumber</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#addQualification").click(function () {
+                var newRow = "<tr>" +
+                    "<td><input type='text' name='Qualifications[0].CourseName' /></td>" +
+                    "<td><input type='text' name='Qualifications[0].University' /></td>" +
+                    "<td><input type='number' name='Qualifications[0].YearOfPassing' /></td>" +
+                    "<td><input type='text' name='Qualifications[0].Percentage' /></td>" +
+                    "</tr>";
+                $("#qualificationTable").append(newRow);
+            });
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.3/jquery.validate.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#registrationForm").validate({
+                rules: {
+                    FirstName: "required",
+                    Age: {
+                        required: true,
+                        digits: true
+                    },
+                    DateOfBirth: "required",
+                    Gender: "required",
+                    Email: {
+                        required: true,
+                        email: true
+                    },
+                    PhoneNumber: "required",
+                    Username: "required",
+                    Password: "required"
+                },
+                messages: {
+                    FirstName: "Please enter your first name",
+                    Age: {
+                        required: "Please enter your age",
+                        digits: "Please enter a valid age"
+                    },
+                    DateOfBirth: "Please enter your date of birth",
+                    Gender: "Please select your gender",
+                    Email: {
+                        required: "Please enter your email",
+                        email: "Please enter a valid email address"
+                    },
+                    PhoneNumber: "Please enter your phone number",
+                    Username: "Please enter a username",
+                    Password: "Please enter a password"
+                }
+            });
+        });
+    </script>
+
+}
